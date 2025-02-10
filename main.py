@@ -18,7 +18,7 @@ def azb():
     return render_template('azb.html')
 
 
-@app.route('/alpha')
+@app.route('/alfa')
 def alpha():
     return render_template('alfa.html')
 
