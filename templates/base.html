@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Base.html</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 <body>
@@ -13,7 +13,8 @@
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/login">Formulář</a></li>
+            <li><a href="{{url_for('login.login')}}">Formulář</a></li>
+            <li><a href="{{url_for('login.register')}}">Registrace</a></li>
         </ul>
     </nav>
 
