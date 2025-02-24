@@ -19,19 +19,15 @@
 
 
 </header>
-
-
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 <ul class="flash-messages">
     {% for message in messages %}
-    <li>{{ message }}</li>
+    <li onclick="this.style.display='none';">{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
 {% endwith %}
-
-
 <main>
     {% block content %}
     {% endblock %}
