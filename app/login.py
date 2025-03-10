@@ -1,5 +1,7 @@
 from flask import Blueprint, request, flash, render_template, Flask
 
+from app.db import db_execute
+
 bp = Blueprint('login', __name__, url_prefix='/login')
 
 USERS = {'pokuston': 'kouzelnik', "admin": "admin", "student": "student"}
@@ -34,3 +36,10 @@ def register():
         return render_template('register.html', username=username, password=password,
                                confirm_password=confirm_password)
     return render_template('register.html')
+
+
+@bp.route('/users')
+def user_list():
+    command = "SELECT username, password FROM users"
+    result = db_execute(command)
+    return render_template("user.html", result=result)
