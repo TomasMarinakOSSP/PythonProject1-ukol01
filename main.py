@@ -6,7 +6,6 @@ if __name__ == '__main__':
     """
     Pokud se jedná o hlavní soubor, tak se inicializuje databáze
     """
-    print(app.config["DATABASE"])
     if not path.exists(app.config["DATABASE"]):
         create_db()
         print("inicializace database")

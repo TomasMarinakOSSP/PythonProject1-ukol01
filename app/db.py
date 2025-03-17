@@ -1,5 +1,7 @@
 import sqlite3
+
 DB_PATH = 'database.sqlite'
+
 def connect_db(db_path = DB_PATH):
     try:
         conn = sqlite3.connect(db_path)
@@ -20,6 +22,7 @@ def create_db():
 def db_execute(command, params=None, path=DB_PATH):
     """
     Funkce pro provedení SQL dotazu
+    který mění data v databázi
     """
     conn = connect_db(path)
     if params:
@@ -34,6 +37,7 @@ def db_execute(command, params=None, path=DB_PATH):
 def db_query(command, params=None, path=DB_PATH):
     """
     Funkce pro provedení SQL dotazu bez commit
+    který čte data z databáze
     """
     conn = connect_db(path)
     if params:

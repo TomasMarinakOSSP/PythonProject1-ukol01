@@ -1,16 +1,14 @@
-from flask import Blueprint, request, flash, render_template, Flask
+from flask import Blueprint, request, flash, render_template, Flask, session
 
 from app.db import db_execute, db_query
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
-USERS = {'pokuston': 'kouzelnik', "admin": "admin", "student": "student"}
-
-
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     """
     Funkce pro přihlášení uživatele
+    bere si to z formuláře a porovnává to s databází uživatelů a hesel
     """
     if request.method == 'POST':
         username = request.form['username']
@@ -33,6 +31,7 @@ def login():
 def register():
     """
     Funkce pro registraci uživatele
+    bere si to z formuláře a ukládá to do databáze uživatelů
     """
     if request.method == 'POST':
         username = request.form['username']
@@ -57,7 +56,13 @@ def register():
 def user_list():
     """
     Funkce pro zobrazení uživatelů
+    zobrazuje všechny uživatele z databáze
     """
     command = "SELECT username, password FROM users"
     result = db_execute(command)
     return render_template("user.html", result=result)
+
+
+@bp.route('/logout')
+def logout():
+    session.pop('username', None)
