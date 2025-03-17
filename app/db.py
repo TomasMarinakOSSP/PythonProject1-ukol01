@@ -29,3 +29,16 @@ def db_execute(command, params=None, path=DB_PATH):
     conn.commit()
     conn.close()
     return result
+
+
+def db_query(command, params=None, path=DB_PATH):
+    """
+    Funkce pro provedení SQL dotazu bez commit
+    """
+    conn = connect_db(path)
+    if params:
+        result = conn.execute(command, params).fetchall()
+    else:
+        result = conn.execute(command).fetchall()
+    conn.close()
+    return result

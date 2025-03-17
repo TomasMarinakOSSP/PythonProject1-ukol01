@@ -1,6 +1,6 @@
 from flask import Blueprint, request, flash, render_template, Flask
 
-from app.db import db_execute
+from app.db import db_execute, db_query
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
@@ -15,11 +15,17 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username in USERS and USERS[username] == password:
+
+        command = "SELECT password FROM users WHERE username = ?"
+        result = db_query(command, (username,))
+
+        if result and result[0][0] == password:
             flash('Přihlášení bylo úspěšné!', 'success')
         else:
             flash('Přihlášení selhalo! Zkuste to znovu.', 'warning')
+
         return render_template('index.html', username=username, password=password)
+
     return render_template('login.html')
 
 
