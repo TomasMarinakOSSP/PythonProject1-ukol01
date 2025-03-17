@@ -33,8 +33,7 @@ def register():
         else:
             USERS[username] = password
             flash('Registrace byla úspěšná!', 'success')
-        return render_template('register.html', username=username, password=password,
-                               confirm_password=confirm_password)
+
     return render_template('register.html')
 
 
