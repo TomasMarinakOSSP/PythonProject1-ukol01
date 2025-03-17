@@ -6,4 +6,7 @@ app.config["DATABASE"] =    "database.sqlite"
 
 @app.route("/")
 def index():
+    """
+    Funkce pro zobrazení indexu
+    """
     return render_template("index.html")

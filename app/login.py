@@ -9,6 +9,9 @@ USERS = {'pokuston': 'kouzelnik', "admin": "admin", "student": "student"}
 
 @bp.route('/', methods=['GET', 'POST'])
 def login():
+    """
+    Funkce pro přihlášení uživatele
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -22,23 +25,33 @@ def login():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Funkce pro registraci uživatele
+    """
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
+
         if password != confirm_password:
             flash('Hesla se neshodují!', 'warning')
-        elif username in USERS:
-            flash('Tento uživatel již existuje!', 'warning')
         else:
-            USERS[username] = password
-            flash('Registrace byla úspěšná!', 'success')
+            try:
+                command = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+                db_execute(command, (username, email, password))
+                flash('Registrace byla úspěšná!', 'success')
+            except Exception as e:
+                flash(f'Chyba při registraci: {str(e)}', 'danger')
 
     return render_template('register.html')
 
 
 @bp.route('/users')
 def user_list():
+    """
+    Funkce pro zobrazení uživatelů
+    """
     command = "SELECT username, password FROM users"
     result = db_execute(command)
     return render_template("user.html", result=result)

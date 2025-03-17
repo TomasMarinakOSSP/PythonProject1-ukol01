@@ -3,6 +3,9 @@ from app.db import create_db
 from os import path
 
 if __name__ == '__main__':
+    """
+    Pokud se jedná o hlavní soubor, tak se inicializuje databáze
+    """
     print(app.config["DATABASE"])
     if not path.exists(app.config["DATABASE"]):
         create_db()
@@ -11,4 +14,7 @@ if __name__ == '__main__':
 app.register_blueprint(login.bp)
 
 if __name__ == '__main__':
+    """
+    Pokud se jedná o hlavní soubor, tak se spustí aplikace
+    """
     app.run(debug=True)

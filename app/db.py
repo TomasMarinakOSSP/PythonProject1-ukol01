@@ -8,6 +8,9 @@ def connect_db(db_path = DB_PATH):
         print("Nepodařilo se připojit k databázi")
 
 def create_db():
+    """
+    Funkce pro vytvoření databáze
+    """
     conn = connect_db()
     script = "scheme.sql"
     with open(script, 'r') as file:
@@ -15,6 +18,9 @@ def create_db():
     conn.close()
 
 def db_execute(command, params=None, path=DB_PATH):
+    """
+    Funkce pro provedení SQL dotazu
+    """
     conn = connect_db(path)
     if params:
         result = conn.execute(command, params).fetchall()
