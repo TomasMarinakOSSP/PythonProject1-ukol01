@@ -1,4 +1,5 @@
 import sqlite3
+from flask import current_app
 
 DB_PATH = 'database.sqlite'
 
@@ -46,3 +47,16 @@ def db_query(command, params=None, path=DB_PATH):
         result = conn.execute(command).fetchall()
     conn.close()
     return result
+
+def execute(command, params=None):
+    """
+    Funkce pro provedení SQL dotazu
+    který mění data v databázi
+    """
+    with sqlite3.connect(current_app.config["DATABASE"]) as conn:
+        if params:
+            result = conn.execute(command, params).fetchall()
+        else:
+            result = conn.execute(command).fetchall()
+        conn.commit()
+        return result

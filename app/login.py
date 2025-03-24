@@ -1,6 +1,6 @@
 from flask import Blueprint, request, flash, render_template, Flask, session, redirect, url_for
 
-from app.db import db_execute, db_query
+from app.db import execute, db_query
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
@@ -45,7 +45,7 @@ def register():
         else:
             try:
                 command = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
-                db_execute(command, (username, email, password))
+                execute(command, (username, email, password))
                 flash('Registrace byla úspěšná!', 'success')
             except Exception as e:
                 flash(f'Chyba při registraci: {str(e)}', 'danger')
@@ -60,7 +60,7 @@ def user_list():
     zobrazuje všechny uživatele z databáze
     """
     command = "SELECT username, password FROM users"
-    result = db_execute(command)
+    result = execute(command)
     return render_template("user.html", result=result)
 
 
@@ -76,3 +76,8 @@ def post():
         flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
         return redirect(url_for('login.login'))
     return render_template('post.html')
+
+def log_required():
+    if 'username' not in session:
+        flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
+        return redirect(url_for('login.login'))
