@@ -1,4 +1,4 @@
-from flask import Blueprint, request, flash, render_template, Flask, session
+from flask import Blueprint, request, flash, render_template, Flask, session, redirect, url_for
 
 from app.db import db_execute, db_query
 
@@ -18,6 +18,7 @@ def login():
         result = db_query(command, (username,))
 
         if result and result[0][0] == password:
+            session['username'] = username
             flash('Přihlášení bylo úspěšné!', 'success')
         else:
             flash('Přihlášení selhalo! Zkuste to znovu.', 'warning')
@@ -66,3 +67,12 @@ def user_list():
 @bp.route('/logout')
 def logout():
     session.pop('username', None)
+    return redirect(url_for('login.login'))
+
+
+@bp.route('/post')
+def post():
+    if 'username' not in session:
+        flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
+        return redirect(url_for('login.login'))
+    return render_template('post.html')
