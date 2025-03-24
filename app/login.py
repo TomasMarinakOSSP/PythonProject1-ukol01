@@ -81,3 +81,11 @@ def log_required():
     if 'username' not in session:
         flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
         return redirect(url_for('login.login'))
+
+def login_required(func):
+    def wrapper(*args, **kwargs):
+        if 'username' not in session:
+            flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
+            return redirect(url_for('login.login'))
+        return func(*args, **kwargs)
+    return wrapper
