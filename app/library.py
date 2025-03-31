@@ -5,5 +5,5 @@ bp = Blueprint('library', __name__, url_prefix='/library')
 
 @bp.route('/')
 @login_required
-def index():
+def ind():
     return render_template('library.html')
