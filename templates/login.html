@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>
+    {% block title %}
+    Formluar
+    {% endblock %}
+</h2>
+
+<form method="POST">
+
+    <label>uživatelské jméno:
+        <input type="text" name="username" placeholder="Vyplnte jmeno uživatele">
+    </label>
+
+    <label>heslo
+        <input type="password" name="password" placeholder="<PASSWORD>">
+    </label>
+
+    <input type="submit" value="Odeslat" name="submit" >
+</form>
+
+{% endblock %}
