@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Base.html</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 <body>
 <header>
     <h1>Website Header</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="{{url_for('login.login')}}">Login</a></li>
-            <li><a href="{{url_for('login.register')}}">Registration</a></li>
-            <li><a href="{{url_for('login.user_list')}}">USERS</a></li>
-            <li><a href="{{url_for('library.ind')}}">Library</a></li>
-            {% if 'username' in session %}
-            <li><a href="{{url_for('login.post')}}">Post</a></li>
-            <li><a href="{{url_for('login.logout')}}">Logout</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+   <nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{url_for('login.login')}}">Login</a></li>
+        <li><a href="{{url_for('login.register')}}">Registration</a></li>
+        <li><a href="{{url_for('login.user_list')}}">USERS</a></li>
+        <li><a href="{{url_for('library.ind')}}">Library</a></li>
+        {% if 'username' in session %}
+        <li><a href="{{url_for('login.post')}}">Post</a></li>
+        <li><a href="{{url_for('login.logout')}}">Logout</a></li>
+        <li>Uživatel: {{ session['username'] }} (Role: {{ session['role'] }})</li>
+        {% endif %}
+        {% if session['role'] == 'admin' %}
+        <li><a href="{{url_for('admin.admin')}}">Admin</a></li>
+        {% endif %}
+    </ul>
+</nav>
 </header>
 {% with messages = get_flashed_messages() %}
 {% if messages %}

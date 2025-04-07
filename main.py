@@ -1,4 +1,4 @@
-from app import app, login, library
+from app import app, login, library, admin
 from app.db import create_db
 from os import path
 
@@ -12,6 +12,8 @@ if __name__ == '__main__':
 
     app.register_blueprint(login.bp)
     app.register_blueprint(library.bp)
+
+    app.register_blueprint(admin.bp)
     """
     Pokud se jedná o hlavní soubor, tak se spustí aplikace
     """

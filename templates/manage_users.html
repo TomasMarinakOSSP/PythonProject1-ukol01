@@ -1,0 +1,34 @@
+{% extends "base_admin.html" %}
+
+{% block title %}
+Správa uživatelů
+{% endblock %}
+
+{% block content %}
+<h2>Správa uživatelů</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Uživatelské jméno</th>
+            <th>Role</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+            <td>
+                <form action="{{ url_for('admin.delete_user', user_id=user[0]) }}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">Smazat</button>
+                    <a href="{{ url_for('admin.edit_user', user_id=user[0]) }}">Edit</a>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

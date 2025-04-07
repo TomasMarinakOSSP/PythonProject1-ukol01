@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<header>
+    <h1>Website Header</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            {% if 'username' in session %}
+            <li>Uživatel: {{ session['username'] }} (Role: {{ session['role'] }})</li>
+            {% endif %}
+            {% if session['role'] == 'admin' %}
+            <li><a href="{{url_for('admin.admin')}}">Admin</a></li>
+            <li><a href="{{url_for('admin.manage_users')}}">users</a></li>
+
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flash-messages">
+    {% for message in messages %}
+    <li onclick="this.style.display='none';">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer>
+    <p>Website Footer</p>
+</footer>
+</body>
+</html>

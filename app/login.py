@@ -1,6 +1,6 @@
 from flask import Blueprint, request, flash, render_template, Flask, session, redirect, url_for
 
-from app.db import execute, db_query
+from app.db import execute
 from functools import wraps
 
 bp = Blueprint('login', __name__, url_prefix='/login')
@@ -15,11 +15,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        command = "SELECT password FROM users WHERE username = ?"
-        result = db_query(command, (username,))
+        command = "SELECT password, role FROM users WHERE username = ?"
+        result = execute(command, (username,))
 
         if result and result[0][0] == password:
             session['username'] = username
+            session['role'] = result[0][1]
             flash('Přihlášení bylo úspěšné!', 'success')
         else:
             flash('Přihlášení selhalo! Zkuste to znovu.', 'warning')
@@ -45,7 +46,7 @@ def register():
             flash('Hesla se neshodují!', 'warning')
         else:
             try:
-                command = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+                command = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'user')"
                 execute(command, (username, email, password))
                 flash('Registrace byla úspěšná!', 'success')
             except Exception as e:
@@ -60,14 +61,15 @@ def user_list():
     Funkce pro zobrazení uživatelů
     zobrazuje všechny uživatele z databáze
     """
-    command = "SELECT username, password FROM users"
+    command = "SELECT username, email, role FROM users"
     result = execute(command)
-    return render_template("user.html", result=result)
+    return render_template("user.html", users=result)
 
 
 @bp.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('role', None)
     return redirect(url_for('login.login'))
 
 

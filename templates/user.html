@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 
-<h2>
-    {% block title %}
-    User list
-    {% endblock %}
-</h2>
+{% block title %}
+Seznam uživatelů
+{% endblock %}
 
 {% block content %}
-<ul>
-   <li>{{ result }}</li>
-</ul>
+<h2>Seznam uživatelů</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Uživatelské jméno</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

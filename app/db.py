@@ -20,33 +20,7 @@ def create_db():
         conn.executescript(file.read())
     conn.close()
 
-def db_execute(command, params=None, path=DB_PATH):
-    """
-    Funkce pro provedení SQL dotazu
-    který mění data v databázi
-    """
-    conn = connect_db(path)
-    if params:
-        result = conn.execute(command, params).fetchall()
-    else:
-        result = conn.execute(command).fetchall()
-    conn.commit()
-    conn.close()
-    return result
 
-
-def db_query(command, params=None, path=DB_PATH):
-    """
-    Funkce pro provedení SQL dotazu bez commit
-    který čte data z databáze
-    """
-    conn = connect_db(path)
-    if params:
-        result = conn.execute(command, params).fetchall()
-    else:
-        result = conn.execute(command).fetchall()
-    conn.close()
-    return result
 
 def execute(command, params=None):
     """
