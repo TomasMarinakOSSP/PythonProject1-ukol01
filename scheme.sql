@@ -1,9 +1,12 @@
-CREATE TABLE users (int id PRIMARY KEY,
-                    username VARCHAR unique NOT NULL,
-                    email VARCHAR unique,
-                    password VARCHAR);
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username VARCHAR UNIQUE NOT NULL,
+    email VARCHAR UNIQUE,
+    password VARCHAR,
+    role VARCHAR NOT NULL
+);
 
-INSERT INTO users (username, email, password) VALUES
-    ("admin", "admin@email.com", "admin123"),
-    ("user", "user@email.com", "user123"),
-    ("test","test@email.com", "test123");
+INSERT INTO users (username, email, password, role) VALUES
+    ("admin", "admin@email.com", "admin123", "admin"),
+    ("user", "user@email.com", "user123", "user"),
+    ("test", "test@email.com", "test123", "user");
