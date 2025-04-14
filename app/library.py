@@ -6,5 +6,8 @@ bp = Blueprint('library', __name__, url_prefix='/library')
 @bp.route('/')
 @login_required
 def ind():
+    """
+    Funkce pro zobrazení knihovny
+    """
 
     return render_template('library.html')

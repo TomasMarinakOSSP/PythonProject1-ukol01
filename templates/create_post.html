@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Vytvořit příspěvek</h2>
+<form method="POST">
+    <input type="text" name="title" placeholder="Nadpis" required><br>
+    <textarea name="content" placeholder="Obsah" required></textarea><br>
+    <button type="submit">Vytvořit</button>
+</form>
+{% endblock %}

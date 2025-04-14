@@ -10,3 +10,12 @@ INSERT INTO users (username, email, password, role) VALUES
     ("admin", "admin@email.com", "admin123", "admin"),
     ("user", "user@email.com", "user123", "user"),
     ("test", "test@email.com", "test123", "user");
+
+CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    author TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

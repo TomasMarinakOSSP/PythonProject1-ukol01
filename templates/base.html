@@ -21,6 +21,7 @@
                         <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
                         <li><a href="{{url_for('library.ind')}}"><i class="fas fa-book"></i> Library</a></li>
                         <li><a href="{{url_for('login.user_list')}}"><i class="fas fa-users"></i> Community</a></li>
+                        <li><a href="{{ url_for('post.index') }}"><i class="fas fa-pen-nib"></i> Posts</a></li>
 
                         {% if 'username' not in session %}
                         <li><a href="{{url_for('login.login')}}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
@@ -96,6 +97,7 @@
                         <li><a href="/">Home</a></li>
                         <li><a href="{{url_for('library.ind')}}">Library</a></li>
                         <li><a href="{{url_for('login.user_list')}}">Community</a></li>
+                         <li><a href="{{ url_for('post.index') }}">Posts</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

@@ -10,6 +10,9 @@ bp = Blueprint('login', __name__, url_prefix='/login')
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        """
+        Funkce pro kontrolu, zda je uživatel přihlášen
+        """
         if 'username' not in session:
             flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
             return redirect(url_for('login.login'))
@@ -79,6 +82,9 @@ def user_list():
 
 @bp.route('/logout')
 def logout():
+    """
+    Funkce pro odhlášení uživatele
+    """
     session.pop('username', None)
     session.pop('role', None)
     return redirect(url_for('login.login'))
@@ -86,12 +92,18 @@ def logout():
 
 @bp.route('/post')
 def post():
+    """
+    Funkce pro zobrazení příspěvků
+    """
     if 'username' not in session:
         flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
         return redirect(url_for('login.login'))
     return render_template('post.html')
 
 def log_required():
+    """
+    Funkce pro kontrolu, zda je uživatel přihlášen
+    """
     if 'username' not in session:
         flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
         return redirect(url_for('login.login'))
