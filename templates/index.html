@@ -1,5 +1,136 @@
 {% extends 'base.html' %}
+
+{% block title %}Welcome to FlaskHub{% endblock %}
+
 {% block content %}
-<h1>Hello World</h1>
-<p>loremefb gegofgo feggeg  zeg fffef lorem </p>
+<section class="featured-section">
+    <div class="container">
+        <h2 class="section-title">Discover Our Community</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Library Resources</h3>
+                <p>Access our extensive collection of books, articles, and learning materials.</p>
+                <a href="{{url_for('library.ind')}}" class="btn btn-outline">Explore Library</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Community</h3>
+                <p>Connect with other members, share knowledge, and collaborate on projects.</p>
+                <a href="{{url_for('login.user_list')}}" class="btn btn-outline">Meet Community</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+                <h3>Create Content</h3>
+                <p>Share your thoughts, articles, and resources with the community.</p>
+                {% if 'username' in session %}
+                    <a href="{{url_for('login.post')}}" class="btn btn-outline">Start Writing</a>
+                {% else %}
+                    <a href="{{url_for('login.register')}}" class="btn btn-outline">Join to Post</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="recent-posts">
+    <div class="container">
+        <h2 class="section-title">Recent Community Posts</h2>
+        <div class="posts-grid">
+            <!-- Sample post 1 -->
+            <article class="post-card">
+                <div class="post-header">
+                    <img src="https://via.placeholder.com/50" alt="User Avatar" class="post-avatar">
+                    <div class="post-author">
+                        <h4>Jane Doe</h4>
+                        <span class="post-date">2 days ago</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3>Getting Started with Flask</h3>
+                    <p>A comprehensive guide for beginners who want to start building web applications with Flask...</p>
+                </div>
+                <div class="post-footer">
+                    <span class="post-tag">Tutorial</span>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Sample post 2 -->
+            <article class="post-card">
+                <div class="post-header">
+                    <img src="https://via.placeholder.com/50" alt="User Avatar" class="post-avatar">
+                    <div class="post-author">
+                        <h4>John Smith</h4>
+                        <span class="post-date">1 week ago</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3>Advanced Flask Patterns</h3>
+                    <p>Exploring factory patterns, blueprints, and application structure for large Flask projects...</p>
+                </div>
+                <div class="post-footer">
+                    <span class="post-tag">Advanced</span>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Sample post 3 -->
+            <article class="post-card">
+                <div class="post-header">
+                    <img src="https://via.placeholder.com/50" alt="User Avatar" class="post-avatar">
+                    <div class="post-author">
+                        <h4>Alex Johnson</h4>
+                        <span class="post-date">2 weeks ago</span>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3>Database Integration</h3>
+                    <p>How to properly integrate SQLAlchemy with Flask for robust database operations...</p>
+                </div>
+                <div class="post-footer">
+                    <span class="post-tag">Database</span>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div class="section-cta">
+            {% if 'username' not in session %}
+            <p>Join our community to create your own posts and engage with others!</p>
+            <a href="{{url_for('login.register')}}" class="btn btn-primary">Sign Up Now</a>
+            {% else %}
+            <p>Have something to share with the community?</p>
+            <a href="{{url_for('login.post')}}" class="btn btn-primary">Create a Post</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" id="user-count">1,240+</div>
+                <div class="stat-label">Community Members</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="post-count">850+</div>
+                <div class="stat-label">Knowledge Posts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="resource-count">1,500+</div>
+                <div class="stat-label">Library Resources</div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

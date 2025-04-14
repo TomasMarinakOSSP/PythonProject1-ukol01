@@ -1,10 +1,48 @@
 {% extends "base_admin.html" %}
 
 {% block title %}
-Admin Panel
+Admin Dashboard
+{% endblock %}
+
+{% block header %}
+Dashboard
 {% endblock %}
 
 {% block content %}
-<h2>Vítejte v Admin Panelu</h2>
-<p>Tato stránka je přístupná pouze pro administrátory.</p>
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-users"></i> Users</h3>
+        </div>
+        <div class="card-body">
+            <p>Manage all registered users</p>
+            <a href="{{ url_for('admin.manage_users') }}" class="card-link">Go to Users <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-cog"></i> Settings</h3>
+        </div>
+        <div class="card-body">
+            <p>Configure system settings</p>
+            <a href="#" class="card-link">Go to Settings <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3><i class="fas fa-chart-line"></i> Statistics</h3>
+        </div>
+        <div class="card-body">
+            <p>View system statistics</p>
+            <a href="#" class="card-link">View Stats <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="welcome-section">
+    <h2>Welcome to Admin Panel</h2>
+    <p>This page is accessible only to administrators. From here you can manage all aspects of the system.</p>
+</div>
 {% endblock %}

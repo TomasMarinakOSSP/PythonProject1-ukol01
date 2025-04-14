@@ -2,48 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flask App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<header>
-    <h1>Website Header</h1>
-   <nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{url_for('login.login')}}">Login</a></li>
-        <li><a href="{{url_for('login.register')}}">Registration</a></li>
-        <li><a href="{{url_for('login.user_list')}}">USERS</a></li>
-        <li><a href="{{url_for('library.ind')}}">Library</a></li>
-        {% if 'username' in session %}
-        <li><a href="{{url_for('login.post')}}">Post</a></li>
-        <li><a href="{{url_for('login.logout')}}">Logout</a></li>
-        <li>Uživatel: {{ session['username'] }} (Role: {{ session['role'] }})</li>
-        {% endif %}
-        {% if session['role'] == 'admin' %}
-        <li><a href="{{url_for('admin.admin')}}">Admin</a></li>
-        {% endif %}
-    </ul>
-</nav>
-</header>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class="flash-messages">
-    {% for message in messages %}
-    <li onclick="this.style.display='none';">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+    <div class="page-container">
+        <!-- Header with navigation -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/">Flask<span>Hub</span></a>
+                </div>
 
-<footer>
-    <p>Website Footer</p>
-</footer>
+                <nav class="main-nav">
+                    <ul class="nav-list">
+                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="{{url_for('library.ind')}}"><i class="fas fa-book"></i> Library</a></li>
+                        <li><a href="{{url_for('login.user_list')}}"><i class="fas fa-users"></i> Community</a></li>
+
+                        {% if 'username' not in session %}
+                        <li><a href="{{url_for('login.login')}}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="{{url_for('login.register')}}"><i class="fas fa-user-plus"></i> Register</a></li>
+                        {% endif %}
+
+                        {% if 'username' in session %}
+                        <li class="dropdown">
+                            <a href="#" class="user-menu">
+                                <i class="fas fa-user-circle"></i> {{ session['username'] }} <i class="fas fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{url_for('login.post')}}"><i class="fas fa-edit"></i> Create Post</a></li>
+                                {% if session['role'] == 'admin' %}
+                                <li><a href="{{url_for('admin.admin')}}"><i class="fas fa-cog"></i> Admin Panel</a></li>
+                                {% endif %}
+                                <li><a href="{{url_for('login.logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+            <div class="flash-message" onclick="this.style.display='none';">
+                {{ message }}
+                <span class="close-flash">&times;</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Main content -->
+        <main class="main-content">
+            {% block content %}
+            <!-- Default content if no block is provided -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to FlaskHub</h1>
+                    <p>Your community for sharing knowledge and resources</p>
+                    {% if 'username' not in session %}
+                    <div class="hero-buttons">
+                        <a href="{{url_for('login.register')}}" class="btn btn-primary">Join Now</a>
+                        <a href="{{url_for('login.login')}}" class="btn btn-secondary">Login</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+            {% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About FlaskHub</h3>
+                    <p>A community platform built with Flask where users can share posts, access library resources, and connect with others.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="{{url_for('library.ind')}}">Library</a></li>
+                        <li><a href="{{url_for('login.user_list')}}">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 FlaskHub. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.querySelector('.main-nav').classList.toggle('active');
+        });
+
+        // Close flash messages when clicking the close button
+        document.querySelectorAll('.close-flash').forEach(button => {
+            button.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>

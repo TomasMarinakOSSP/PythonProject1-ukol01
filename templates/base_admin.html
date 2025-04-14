@@ -3,43 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} | Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.js') }}">
 </head>
-<body>
-<header>
-    <h1>Website Header</h1>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            {% if 'username' in session %}
-            <li>Uživatel: {{ session['username'] }} (Role: {{ session['role'] }})</li>
-            {% endif %}
-            {% if session['role'] == 'admin' %}
-            <li><a href="{{url_for('admin.admin')}}">Admin</a></li>
-            <li><a href="{{url_for('admin.manage_users')}}">users</a></li>
+<body class="admin-body">
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="{{ url_for('admin.admin') }}" class="nav-link">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('admin.manage_users') }}" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Manage Users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Back to Site</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                {% if 'username' in session %}
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <span class="username">{{ session['username'] }}</span>
+                        <span class="user-role">{{ session['role'] }}</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('login.logout') }}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+                {% endif %}
+            </div>
+        </aside>
 
-            {% endif %}
-        </ul>
-    </nav>
-</header>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class="flash-messages">
-    {% for message in messages %}
-    <li onclick="this.style.display='none';">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>{% block header %}{% endblock %}</h1>
+                </div>
+                <div class="header-right">
+                    <span class="current-time" id="current-time"></span>
+                </div>
+            </header>
 
-<footer>
-    <p>Website Footer</p>
-</footer>
+            <!-- Content -->
+            <div class="admin-content">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                        <div class="flash-message" onclick="this.style.display='none';">
+                            <i class="fas fa-info-circle"></i>
+                            <span>{{ message }}</span>
+                            <button class="flash-close">&times;</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Page content -->
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
 </body>
 </html>

@@ -3,8 +3,18 @@ from flask import Blueprint, request, flash, render_template, Flask, session, re
 from app.db import execute
 from functools import wraps
 
+
 bp = Blueprint('login', __name__, url_prefix='/login')
 
+
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'username' not in session:
+            flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
+            return redirect(url_for('login.login'))
+        return func(*args, **kwargs)
+    return wrapper
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     """
@@ -56,6 +66,7 @@ def register():
 
 
 @bp.route('/users')
+@login_required
 def user_list():
     """
     Funkce pro zobrazení uživatelů
@@ -85,11 +96,3 @@ def log_required():
         flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
         return redirect(url_for('login.login'))
 
-def login_required(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        if 'username' not in session:
-            flash('Musíte být přihlášeni, abyste mohli zobrazit tuto stránku.', 'warning')
-            return redirect(url_for('login.login'))
-        return func(*args, **kwargs)
-    return wrapper
